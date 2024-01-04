@@ -1,0 +1,57 @@
+import heapq
+from collections import defaultdict
+class Graph:
+    def __init__(self):
+        self.graph=defaultdict(list)
+    def add_edge(self,u,v,cost,distance):
+        self.graph[u].append((v,cost,distance))
+        self.graph[v].append((u,cost,distance))
+    def shortest_path_min_cost(self,start,end):
+        min_heap=[(0,0,start,[])] #totalcost,totaldistance,node,path
+        min_cost=float('inf')
+        min_dist=float('inf')
+        min_path=[]
+        while min_heap:
+            total_cost,total_distance,node,path=heapq.heappop(min_heap)
+            if node==end:
+                if total_cost<min_cost and total_distance<min_dist:
+                    min_cost=total_cost
+                    min_dist=total_distance
+                    min_path=path+[node]
+                continue
+            for neighbour,cost,distance in self.graph[node]:
+                if neighbour not in path:
+                    heapq.heappush(min_heap,(total_cost+cost,total_distance+distance,neighbour,path+[node]))
+        if min_cost!=float('inf') and min_dist!=float('inf'):
+            return min_cost,min_path,min_dist
+        else:
+            return -1,[],-1
+g=Graph()
+g.add_edge('CCS airport','Amausi',5,1)
+g.add_edge('Amausi','transport nagar',12,3.6)
+g.add_edge('transport nagar','krishna nagar',12,3.7)
+g.add_edge('krishna nagar','singar nagar',15,11.3)
+g.add_edge('singar nagar','alambagh',5,1.3)
+g.add_edge('alambagh','mawaiya',13,5.4)
+g.add_edge('mawaiya','durgapuri',5,1)
+g.add_edge('durgapuri','charbagh',5,1)
+g.add_edge('charbagh','husainganj',7,2.1)
+g.add_edge('husainganj','sachivalaya',5,1.3)
+g.add_edge('sachivalaya','hazratganj',7,1.8)
+g.add_edge('hazratganj','KD Singh Stadium',7,1.8)
+g.add_edge('KD Singh Stadium','vishwavidyalaya',5,1)
+g.add_edge('vishwavidyalaya','IT chauraha',12,2.9)
+g.add_edge('IT chauraha','Badshah nagar',7,2)
+g.add_edge('Badshah nagar','Bhootnath market',10,2.5)
+g.add_edge('Bhootnath market','Indra nagar',7,1.9)
+start_node='Indra nagar'
+end_node='hazratganj'
+min_cost,min_path,min_dist=g.shortest_path_min_cost(start_node,end_node)
+if min_cost!=-1 and min_dist!=-1:
+    print(f'the shortest path with minimum cost from {start_node} to {end_node}:')
+    print('shortest path:',min_path)
+    print('minimum cost:',min_cost)
+    print('total minimum distance:',min_dist)
+else:
+    print(f'There is no shortest path from {start_node} to {end_node}')
+
