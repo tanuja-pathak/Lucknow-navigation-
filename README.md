@@ -1,4 +1,4 @@
-# Lucknow-navigation-
+# Travel Plan-
 This is a simple Python program that will take information of the source and the destination of Lucknow and display the fare and shortest path and the shortest distance to reach the destination. It will help the user for better navigation.
 
 
